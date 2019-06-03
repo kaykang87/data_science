@@ -11,8 +11,8 @@
 import numpy as np
 import pandas as pd
 
-autos = pd.read_csv(
-    "autos.csv", encoding="Windows-1252")
+autos = pd.read_csv("Project3_Ebay_Car_Sales\\autos.csv",
+                    encoding="Windows-1252")
 
 
 # Print the autos data to inspect the data
