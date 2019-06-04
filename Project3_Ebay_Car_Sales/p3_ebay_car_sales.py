@@ -11,7 +11,7 @@
 import numpy as np
 import pandas as pd
 
-autos = pd.read_csv("Project3_Ebay_Car_Sales\\autos.csv",
+autos = pd.read_csv("./Project3_Ebay_Car_Sales/autos.csv",
                     encoding="Windows-1252")
 
 
