@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # %% [markdown]
-## Introduction
+# # Introduction
 # This project will compare the earnings based on different college majors
 
 # %% [markdown]
@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 # %%
 recent_grads = pd.read_csv(
-    "./Project4_Visualizing_Earnings_of_Majors/recent-grads.csv")
+    "Projects\Project4_Visualizing_Earnings_of_Majors\\recent-grads.csv")
 recent_grads.describe()
 
 # %% [markdown]
@@ -39,7 +39,7 @@ print("raw data count", raw_data_count)
 print("cleaned_data_count", cleaned_data_count)
 
 # %%[markdown]
-## Creating Scatter Plots
+# Creating Scatter Plots
 
 # %%
 ax = recent_grads.plot(x='Sample_size', y='Employed', kind='scatter')
@@ -78,7 +78,7 @@ for r in range(1, 9):
 
 # %%
 # %% [markdown]
-## Pandas, Scatter Matrix Plot
+# Pandas, Scatter Matrix Plot
 
 # %%
 scatter_matrix(recent_grads[['Sample_size', 'Median']], figsize=(6, 6))
@@ -89,7 +89,7 @@ scatter_matrix(
     recent_grads[['Sample_size', 'Median', 'Unemployment_rate']], figsize=(10, 10))
 
 # %% [markdown]
-## Pandas, Bar Plots
+# Pandas, Bar Plots
 
 # %%
 recent_grads[:10].plot.bar(x='Major', y='ShareWomen', legend=False)

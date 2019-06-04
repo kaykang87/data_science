@@ -10,7 +10,8 @@
 
 from csv import reader
 
-opened_file = open('hacker_news.csv')
+opened_file = open(
+    'Projects\Project2_Exploring Hacker News Posts\hacker_news.csv')
 read_file = reader(opened_file)
 hn = list(read_file)
 hn[:5]
