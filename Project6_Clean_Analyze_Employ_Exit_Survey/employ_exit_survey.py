@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+%matplotlib inline
 
 # read in dataframe
 dete_survey = pd.read_csv(
