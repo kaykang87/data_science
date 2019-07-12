@@ -12,7 +12,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-%matplotlib inline
 
 # read in dataframe
 dete_survey = pd.read_csv(
@@ -367,61 +366,88 @@ combined_updated.dropna()
 combined_updated["age"] = combined_updated["age"].astype("str").str.extract(r"(\d+)")
 
 # convert the age column to float
-combined_updated['age'] = combined_updated['age'].astype('float')
+combined_updated["age"] = combined_updated["age"].astype("float")
 
 # check unique values
-combined_updated['age'].value_counts()
+combined_updated["age"].value_counts()
 
 #%%
 # function to convert age to categories
 def transform_age(val):
-       if val >= 50:
-              return "Old"
-       elif 40 <= val <= 50:
-              return "Middle Aged"
-       elif pd.isnull(val):
-              return np.nan
-       else:
-              return "Young"
+    if val >= 50:
+        return "Old"
+    elif 40 <= val <= 50:
+        return "Middle Aged"
+    elif pd.isnull(val):
+        return np.nan
+    else:
+        return "Young"
+
 
 # Create a new column to save the age categories
-combined_updated['age_cat'] = combined_updated['age'].apply(transform_age)
+combined_updated["age_cat"] = combined_updated["age"].apply(transform_age)
 
-combined_updated['age_cat'].value_counts()       
+combined_updated["age_cat"].value_counts()
 
 #%%
-dis_age = combined_updated.pivot_table(
-    index="age_cat", values="dissatisfied"
-)
+dis_age = combined_updated.pivot_table(index="age_cat", values="dissatisfied")
 
 # Plot the results
 dis_age.plot(kind="bar", rot=30)
 
 #%%
-ax = sns.barplot(x='age_cat', y='institute_service_up', hue='dissatisfied', data=combined_updated)
+ax = sns.barplot(
+    x="age_cat", y="institute_service_up", hue="dissatisfied", data=combined_updated
+)
 
 #%%
-ax = sns.barplot(x='service_cat', y='institute_service_up', hue='dissatisfied', data=combined_updated)
+ax = sns.barplot(
+    x="service_cat", y="institute_service_up", hue="dissatisfied", data=combined_updated
+)
 
 #%%
 # Calculate each gender within the each age category
-young_fem = combined_updated[(combined_updated['age_cat'] == 'Young') & (combined_updated['gender'] == 'Female') & (combined_updated['dissatisfied'] == True)]
-young_male = combined_updated[(combined_updated['age_cat'] == 'Young') & (combined_updated['gender'] == 'Male') & (combined_updated['dissatisfied'] == True)]
+young_fem = combined_updated[
+    (combined_updated["age_cat"] == "Young")
+    & (combined_updated["gender"] == "Female")
+    & (combined_updated["dissatisfied"] == True)
+]
+young_male = combined_updated[
+    (combined_updated["age_cat"] == "Young")
+    & (combined_updated["gender"] == "Male")
+    & (combined_updated["dissatisfied"] == True)
+]
 
-middle_fem = combined_updated[(combined_updated['age_cat'] == 'Middle Aged') & (combined_updated['gender'] == 'Female') & (combined_updated['dissatisfied'] == True)]
-middle_male = combined_updated[(combined_updated['age_cat'] == 'Middle Aged') & (combined_updated['gender'] == 'Male') & (combined_updated['dissatisfied'] == True)]
+middle_fem = combined_updated[
+    (combined_updated["age_cat"] == "Middle Aged")
+    & (combined_updated["gender"] == "Female")
+    & (combined_updated["dissatisfied"] == True)
+]
+middle_male = combined_updated[
+    (combined_updated["age_cat"] == "Middle Aged")
+    & (combined_updated["gender"] == "Male")
+    & (combined_updated["dissatisfied"] == True)
+]
 
-old_fem = combined_updated[(combined_updated['age_cat'] == 'Old') & (combined_updated['gender'] == 'Female') & (combined_updated['dissatisfied'] == True)]
-old_male = combined_updated[(combined_updated['age_cat'] == 'Old') & (combined_updated['gender'] == 'Male') & (combined_updated['dissatisfied'] == True)]
+old_fem = combined_updated[
+    (combined_updated["age_cat"] == "Old")
+    & (combined_updated["gender"] == "Female")
+    & (combined_updated["dissatisfied"] == True)
+]
+old_male = combined_updated[
+    (combined_updated["age_cat"] == "Old")
+    & (combined_updated["gender"] == "Male")
+    & (combined_updated["dissatisfied"] == True)
+]
 
-print(young_fem.shape[0], 'dissatisfied young females')
-print(young_male.shape[0], 'dissatisfied young males')
+print(young_fem.shape[0], "dissatisfied young females")
+print(young_male.shape[0], "dissatisfied young males")
 print()
-print(middle_fem.shape[0], 'dissatisfied middle aged females')
-print(middle_male.shape[0], 'dissatisfied middle aged males')
+print(middle_fem.shape[0], "dissatisfied middle aged females")
+print(middle_male.shape[0], "dissatisfied middle aged males")
 print()
-print(old_fem.shape[0], 'dissatisfied old females')
-print(old_male.shape[0], 'dissatisfied old males')
+print(old_fem.shape[0], "dissatisfied old females")
+print(old_male.shape[0], "dissatisfied old males")
 
 #%% [markdown]
 # From the above bar plot, it shows that age group between 20-40 is the most dissatisfied
@@ -432,21 +458,13 @@ print(old_male.shape[0], 'dissatisfied old males')
 
 #%%
 g = sns.FacetGrid(
-    combined_updated,
-    col="dissatisfied",
-    hue="gender",
-    legend_out=True,
-    size = 4
+    combined_updated, col="dissatisfied", hue="gender", legend_out=True, height=4
 )
 g.map(sns.kdeplot, "age", shade=True).add_legend()
 
 #%%
 g = sns.FacetGrid(
-    combined_updated,
-    col="dissatisfied",
-    hue="gender",
-    legend_out=True,
-    size = 4
+    combined_updated, col="dissatisfied", hue="gender", legend_out=True, height=4
 )
 g.map(sns.kdeplot, "institute_service_up", shade=True).add_legend()
 
@@ -454,18 +472,17 @@ g.map(sns.kdeplot, "institute_service_up", shade=True).add_legend()
 g = sns.FacetGrid(
     combined_updated,
     col="dissatisfied",
-    row='service_cat',
+    row="service_cat",
     hue="gender",
     legend_out=True,
-    size = 4
+    height=4,
 )
 g.map(sns.kdeplot, "age", shade=True).add_legend()
 
 #%% [markdown]
 # # Conclusion
-# From the analysis, we can make a conclusion that veteran and established employees are more likely to resign due to dissatisfaction. 
-# Also, older employees with more experience are more likely to be dissatisfied compared to younger employees. 
+# From the analysis, we can make a conclusion that veteran and established employees are more likely to resign due to dissatisfaction.
+# Also, older employees with more experience are more likely to be dissatisfied compared to younger employees.
 # Females seem to be more likely to resign due to dissatisfaction compared to males. Among the females, younger females are more likely to resign due to dissatisfaction.
-# As employees gain experience, it might be likely that they are having dissatisfaction due to lack of promotions. 
+# As employees gain experience, it might be likely that they are having dissatisfaction due to lack of promotions.
 
-#%%
