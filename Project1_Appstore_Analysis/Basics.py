@@ -34,14 +34,17 @@ def explore_data(dataset, start, end, rows_and_columns=False):
     print('Number of rows:', len(dataset))
     #print('Number of columns:', len(dataset[0]))
 
-
+#print apple header
 print(apple_header)
 print('\n')
+#print first 3 rows of apple store data
 explore_data(apple_data, 0, 3, True)
 print('\n')
 
+#print android header
 print(android_header)
 print('\n')
+#print first 3 rows of android store data
 explore_data(android_data, 0, 3, True)
 print('\n')
 
@@ -49,7 +52,7 @@ print('\n')
 # %%
 print(android_header)
 print('\n')
-# The data with incorrect information. It is missing data and has columns shifted.
+# The data with incorrect information. It is missing data and makes the  columns shifted.
 print(android_data[10472])
 print('\n')
 print('Number of Android Data Before Deletion of Invalid Row', len(android_data))
@@ -83,7 +86,7 @@ print('Number of duplicate apps:', len(duplicate_list))
 # Android data should only include unique apps. To count the number of unique apps, we need to substract the duplicate apps from the android data.
 
 # %%
-print('Expected number of unique apps:', len(android_data) - 1181)
+print('Expected number of unique apps:', len(android_data) - 1180)
 
 # %% [markdown]
 # Let's start by building the dictionary to keep only the apps with the most amount of installs. The dictionary will loop through each app and overwrite the existing value for the app name when it finds the number of installs with higher number than the existing value.
@@ -97,7 +100,6 @@ for app in android_data:
 
     if name in reviews_max and reviews_max[name] < n_reviews:
         reviews_max[name] = n_reviews
-
     elif name not in reviews_max:
         reviews_max[name] = n_reviews
 
@@ -111,9 +113,12 @@ print('Actual Number of unique apps:', len(reviews_max))
 # We isolate the name of the app and the number of reviews.
 # We add the current row (app) to the android_clean list, and the app name (name) to the already_cleaned list if:
 # The number of reviews of the current app matches the number of reviews of that app as described in the reviews_max dictionary; and
-# The name of the app is not already in the already_added list. **We need to add this supplementary condition to account for those cases where the highest number of reviews of a duplicate app is the same for more than one entry (for example, the Box app has three entries, and the number of reviews is the same). If we just check for reviews_max[name] == n_reviews, we'll still end up with duplicate entries for some apps.**
+# The name of the app is not already in the already_added list.
+#
+# **We need to add this supplementary condition to account for those cases where the highest number of reviews of a duplicate app is the same for more than one entry (for example, the Box app has three entries, and the number of reviews is the same). If we just check for reviews_max\[name\] == n_reviews, we'll still end up with duplicate entries for some apps.**
 
 # %%
+# create a clean list that doesn't include duplicate data
 android_clean = []
 already_added = []
 for app in android_data:
@@ -123,8 +128,6 @@ for app in android_data:
     if (n_reviews == reviews_max[name]) and (name not in already_added):
         android_clean.append(app)
         already_added.append(name)
-
-
 # %%
 explore_data(android_clean, 0, 3, True)
 
@@ -134,14 +137,11 @@ explore_data(android_clean, 0, 3, True)
 # We will remove non-english apps by using the [ASCII](https://en.wikipedia.org/wiki/ASCII) system. English uses number that is equal to or less than 127 so we will use this number to create a condition to figure out if the language is english or not.
 
 # %%
-
-
 def check_language(string):
     for character in string:
         if ord(character) > 127:
             return False
     return True
-
 
 print(check_language('Instagram'))
 print(check_language('안녕'))
@@ -152,8 +152,7 @@ print(check_language('Docs To Go™ Free Office Suite'))
 # The function checks the language to a certain point but because it doesn't recognize some symbols and emojis, it returns false even if the app is using english. To prevent some data loss of these english apps that includes certain symbols, we'll only remove an app if its name has more than three characters with corresponding numbers failing outside the ASCII range.
 
 # %%
-
-
+# function to check language based on the ascii range
 def check_language(string):
     non_ascii = 0
     for character in string:
@@ -172,6 +171,7 @@ print(check_language('Docs To Go™ Free Office Suite'))
 
 
 # %%
+# create a list that only includes english apps
 android_english_app = []
 android_nonenglish_app = []
 for app in android_clean:
@@ -190,17 +190,22 @@ for app in apple_data:
     else:
         ios_nonenglish_app.append(app)
 
+print('Android English Apps Sample:')
 explore_data(android_english_app, 0, 3, True)
 print('\n')
+print('Android Non-English Apps Sample:')
 explore_data(android_nonenglish_app, 0, 3, True)
 print('\n')
+print('iOS English Apps Sample:')
 explore_data(ios_english_app, 0, 3, True)
 print('\n')
-explore_data(ios_nonenglish_app, 0, 1, True)
+print('iOS Non-English Apps Sample:')
+explore_data(ios_nonenglish_app, 0, 3, True)
 print('\n')
 
 
 # %%
+# create a list that only includes free apps from the cleaned lists
 android_free_app = []
 ios_free_app = []
 for app in android_english_app:
@@ -225,8 +230,7 @@ print('Number of Free iOS Apps:', len(ios_free_app))
 # 3. If the app is profitable after six months, we also build an iOS version of the app and add it to the App Store.
 
 # %%
-
-
+# functions to display the frequency table of datasets
 def display_table(dataset, index):
     table = freq_table(dataset, index)
     table_display = []
@@ -339,13 +343,12 @@ for category in android_category:
     print(category, ':', avg_n_installs)
 
 # %% [markdown]
-# On average, communication apps have the most installs: 38,456,119. This number is heavily skewed up by a few apps that have over one billion installs (WhatsApp, Facebook Messenger, Skype, Google Chrome, Gmail, and Hangouts), and a few others with over 100 and 500 million installs. Let's analyze the communication category in the android app store.
+# On average, communication apps have the most installs: 38,456,119. Let's analyze the communication category in the android app store.
 
 # %%
 for app in android_free_app:
     if app[1] == 'COMMUNICATION':
         print(app[0], ':', app[5])
-
 
 # %%
 for app in android_free_app:
@@ -353,6 +356,9 @@ for app in android_free_app:
                                       or app[5] == '500,000,000+'
                                       or app[5] == '100,000,000+'):
         print(app[0], ':', app[5])
+
+#%%[markdown]
+# We can tell the 'communication' category in the android appstore is heavily skewed up by a few apps that have over one billion installs (WhatsApp, Facebook Messenger, Skype, Google Chrome, Gmail, and Hangouts), and a few others with over 100 and 500 million installs.
 
 
 # %%
