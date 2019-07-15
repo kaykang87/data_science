@@ -10,12 +10,11 @@ hourly_sales = pd.read_csv(
     "Projects\Project_Buns_N_Rice\Hourly Sales Performance by Revenue Class.csv"
 )
 
-hourly_sales.head()
-
 #%%
 # drop the unneeded columns and make the changes in the dataframe itself by using inplace=True
 cols = [0, 1, 5, 6, 7, 11, 12, 13, 20, 21]
 hourly_sales.drop(hourly_sales.columns[cols], axis="columns", inplace=True)
+hourly_sales.head()
 
 #%%
 # check for missing values
@@ -24,6 +23,7 @@ hourly_sales.isnull().sum()
 #%%
 # check the unique value of hours and drop the values that are outside the range of operating hours of the store
 print(hourly_sales["create_hour_ordinal"].value_counts())
+
 hourly_sales_up = hourly_sales[
     (hourly_sales["create_hour_ordinal"] != 16)
     & (hourly_sales["create_hour_ordinal"] != 5)
@@ -36,7 +36,6 @@ pivot_table = hourly_sales_up.pivot_table(
     index="create_hour_ordinal", values="c_ticketitem_net_price", aggfunc=np.sum
 )
 pivot_table.plot(kind="bar")
-
 
 #%%
 # Create a pivot table to get the sum of sales based on specific hours of each day
