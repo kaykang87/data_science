@@ -1,5 +1,4 @@
 #%% [markdown]
-
 # # Analyzing Employ Exit Survey
 # We are working with exit surveys from employees of the Department of Education, Training and Employment (DETE) and the Technical and Further Education(TAFE) institute in Queensland, Australia.
 #
@@ -485,4 +484,3 @@ g.map(sns.kdeplot, "age", shade=True).add_legend()
 # Also, older employees with more experience are more likely to be dissatisfied compared to younger employees.
 # Females seem to be more likely to resign due to dissatisfaction compared to males. Among the females, younger females are more likely to resign due to dissatisfaction.
 # As employees gain experience, it might be likely that they are having dissatisfaction due to lack of promotions.
-
